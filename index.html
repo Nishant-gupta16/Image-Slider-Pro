@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider Pro | Complete Working Solution</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-area">
+                    <div class="logo-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <div class="app-title">
+                        <h1>Image Slider Pro</h1>
+                        <p class="app-subtitle">Upload, Edit & Share Your Images</p>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <div class="header-buttons">
+                        <button class="header-btn" id="features-btn" title="View Features">
+                            <i class="fas fa-star"></i> Features
+                        </button>
+                        <button class="header-btn" id="theme-toggle" title="Toggle Theme">
+                            <i class="fas fa-moon"></i> Theme
+                        </button>
+                    </div>
+                    <div class="upload-container">
+                        <button class="upload-btn" id="upload-main-btn">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            Upload Images
+                        </button>
+                        <input type="file" id="file-input" accept="image/*" multiple style="display: none;">
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="content-area">
+            <!-- Left Panel - Image Gallery -->
+            <div class="left-panel">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-th"></i> Image Gallery</h3>
+                        <span class="image-count" id="image-count">0 images</span>
+                    </div>
+                    
+                    <div class="image-gallery" id="image-gallery">
+                        <div class="empty-gallery" id="empty-gallery">
+                            <i class="fas fa-images"></i>
+                            <p>No images uploaded yet</p>
+                            <button class="upload-gallery-btn" id="upload-gallery-btn">
+                                <i class="fas fa-upload"></i> Upload Images
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-actions">
+                        <button class="action-small" id="shuffle-btn" title="Shuffle Images">
+                            <i class="fas fa-random"></i>
+                        </button>
+                        <button class="action-small" id="reverse-btn" title="Reverse Order">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        <button class="action-small" id="clear-all-btn" title="Clear All">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button class="action-small" id="save-project-btn" title="Save Project" disabled>
+                            <i class="fas fa-save"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Slider Settings -->
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-cogs"></i> Slider Settings</h3>
+                    </div>
+                    
+                    <div class="settings-controls">
+                        <div class="setting-item">
+                            <label><i class="fas fa-tachometer-alt"></i> Speed</label>
+                            <div class="slider-with-value">
+                                <input type="range" min="1" max="10" value="5" class="settings-slider" id="speed-slider">
+                                <span class="slider-value" id="speed-value">Medium</span>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label><i class="fas fa-transition"></i> Transition</label>
+                            <div class="transition-options">
+                                <button class="transition-option active" data-transition="slide">
+                                    Slide
+                                </button>
+                                <button class="transition-option" data-transition="fade">
+                                    Fade
+                                </button>
+                                <button class="transition-option" data-transition="zoom">
+                                    Zoom
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item toggle-item">
+                            <div class="toggle-label">
+                                <i class="fas fa-play-circle"></i>
+                                <span>Auto Play</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="autoplay-switch" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item toggle-item">
+                            <div class="toggle-label">
+                                <i class="fas fa-infinity"></i>
+                                <span>Loop Slides</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="loop-switch" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Panel - Main Slider -->
+            <div class="center-panel">
+                <div class="panel-card">
+                    <!-- Single Image Edit Mode Toggle -->
+                    <div class="edit-mode-bar" id="edit-mode-bar">
+                        <div class="edit-mode-info">
+                            <i class="fas fa-edit"></i>
+                            <div>
+                                <strong>Single Image Edit Mode</strong>
+                                <small>Edit only the selected image</small>
+                            </div>
+                        </div>
+                        <label class="edit-toggle">
+                            <input type="checkbox" id="single-edit-toggle" checked>
+                            <span class="edit-toggle-slider"></span>
+                            <span class="edit-toggle-label" id="edit-mode-status">ON</span>
+                        </label>
+                    </div>
+                    
+                    <!-- Main Slider -->
+                    <div class="slider-container">
+                        <div class="slider-wrapper" id="slider-wrapper">
+                            <div class="slider" id="slider">
+                                <!-- Slides will be added dynamically -->
+                            </div>
+                        </div>
+                        
+                        <!-- Zoom & Fullscreen Controls -->
+                        <div class="zoom-controls">
+                            <button class="zoom-btn" id="zoom-out-btn" title="Zoom Out">
+                                <i class="fas fa-search-minus"></i>
+                            </button>
+                            <span class="zoom-level-display" id="zoom-level-display">100%</span>
+                            <button class="zoom-btn" id="zoom-in-btn" title="Zoom In">
+                                <i class="fas fa-search-plus"></i>
+                            </button>
+                            <button class="zoom-btn" id="reset-zoom-btn" title="Reset Zoom">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                            <button class="zoom-btn" id="image-fullscreen-btn" title="Fullscreen Image">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Slider Controls -->
+                        <div class="slider-controls">
+                            <button class="control-btn prev-btn" id="prev-btn" title="Previous">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            
+                            <div class="main-controls">
+                                <button class="control-btn play-btn" id="play-pause-btn" title="Play/Pause">
+                                    <i class="fas fa-pause" id="play-icon"></i>
+                                </button>
+                            </div>
+                            
+                            <button class="control-btn next-btn" id="next-btn" title="Next">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress-bar"></div>
+                        </div>
+                        
+                        <!-- Slide Info -->
+                        <div class="slide-info">
+                            <div class="slide-counter">
+                                <span id="current-slide">0</span>
+                                <span class="counter-separator">/</span>
+                                <span id="total-slides">0</span>
+                            </div>
+                            <div class="slide-details">
+                                <h4 id="slide-title">No Image Selected</h4>
+                                <p id="slide-description">Upload images to begin</p>
+                            </div>
+                            <div class="slide-actions">
+                                <button class="action-icon" id="download-slide-btn" title="Download Current">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Image Editor -->
+            <div class="right-panel">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-magic"></i> Image Editor</h3>
+                        <div class="editor-mode" id="editor-mode-display">
+                            <span class="mode-badge" id="editor-mode-badge">Single Image</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Selected Image Preview -->
+                    <div class="selected-image" id="selected-image-preview">
+                        <div class="image-preview">
+                            <img id="editor-preview" src="" alt="">
+                        </div>
+                        <div class="image-info">
+                            <h5 id="editor-image-name">No image selected</h5>
+                            <p id="editor-image-size">--</p>
+                            <button class="apply-all-btn" id="apply-to-all-btn">
+                                <i class="fas fa-layer-group"></i> Apply to All
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Editor Controls -->
+                    <div class="editor-controls">
+                        <!-- Preset Filters -->
+                        <div class="control-section">
+                            <h4><i class="fas fa-filter"></i> Preset Filters</h4>
+                            <div class="presets-grid">
+                                <button class="preset-filter active" data-filter="normal">
+                                    <div class="preset-preview normal"></div>
+                                    <span>Normal</span>
+                                </button>
+                                <button class="preset-filter" data-filter="vintage">
+                                    <div class="preset-preview vintage"></div>
+                                    <span>Vintage</span>
+                                </button>
+                                <button class="preset-filter" data-filter="dramatic">
+                                    <div class="preset-preview dramatic"></div>
+                                    <span>Dramatic</span>
+                                </button>
+                                <button class="preset-filter" data-filter="warm">
+                                    <div class="preset-preview warm"></div>
+                                    <span>Warm</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Adjustments -->
+                        <div class="control-section">
+                            <h4><i class="fas fa-sliders-h"></i> Adjustments</h4>
+                            <div class="adjustments-list">
+                                <div class="adjustment">
+                                    <div class="adjustment-label">
+                                        <i class="fas fa-sun"></i>
+                                        <span>Brightness</span>
+                                        <span class="adjustment-value" id="brightness-value-display">100%</span>
+                                    </div>
+                                    <input type="range" min="0" max="200" value="100" 
+                                           class="adjustment-slider" id="brightness-slider">
+                                </div>
+                                
+                                <div class="adjustment">
+                                    <div class="adjustment-label">
+                                        <i class="fas fa-adjust"></i>
+                                        <span>Contrast</span>
+                                        <span class="adjustment-value" id="contrast-value-display">100%</span>
+                                    </div>
+                                    <input type="range" min="0" max="200" value="100" 
+                                           class="adjustment-slider" id="contrast-slider">
+                                </div>
+                                
+                                <div class="adjustment">
+                                    <div class="adjustment-label">
+                                        <i class="fas fa-tint"></i>
+                                        <span>Saturation</span>
+                                        <span class="adjustment-value" id="saturation-value-display">100%</span>
+                                    </div>
+                                    <input type="range" min="0" max="200" value="100" 
+                                           class="adjustment-slider" id="saturation-slider">
+                                </div>
+                                
+                                <div class="adjustment">
+                                    <div class="adjustment-label">
+                                        <i class="fas fa-snowflake"></i>
+                                        <span>Blur</span>
+                                        <span class="adjustment-value" id="blur-value-display">0px</span>
+                                    </div>
+                                    <input type="range" min="0" max="20" value="0" 
+                                           class="adjustment-slider" id="blur-slider">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Transformations -->
+                        <div class="control-section">
+                            <h4><i class="fas fa-sync-alt"></i> Transform</h4>
+                            <div class="transform-grid">
+                                <button class="transform-action" id="rotate-left-btn">
+                                    <i class="fas fa-undo"></i>
+                                    <span>Rotate Left</span>
+                                </button>
+                                <button class="transform-action" id="rotate-right-btn">
+                                    <i class="fas fa-redo"></i>
+                                    <span>Rotate Right</span>
+                                </button>
+                                <button class="transform-action" id="flip-horizontal-btn">
+                                    <i class="fas fa-arrows-alt-h"></i>
+                                    <span>Flip H</span>
+                                </button>
+                                <button class="transform-action" id="flip-vertical-btn">
+                                    <i class="fas fa-arrows-alt-v"></i>
+                                    <span>Flip V</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Editor Actions -->
+                        <div class="editor-actions">
+                            <button class="editor-btn reset-btn" id="reset-editor-btn">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                            <button class="editor-btn apply-btn" id="apply-changes-btn">
+                                <i class="fas fa-check"></i> Apply
+                            </button>
+                            <button class="editor-btn download-btn" id="download-edited-btn">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="features-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-star"></i> Features</h3>
+                <button class="modal-close" id="close-features">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="features-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-upload"></i>
+                        </div>
+                        <div class="feature-details">
+                            <h4>Image Upload</h4>
+                            <p>Drag & drop or select multiple images to upload</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <div class="feature-details">
+                            <h4>Advanced Editing</h4>
+                            <p>Adjust brightness, contrast, saturation, blur and apply filters</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                        <div class="feature-details">
+                            <h4>Zoom Feature</h4>
+                            <p>Zoom in/out on images for detailed viewing</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-sliders-h"></i>
+                        </div>
+                        <div class="feature-details">
+                            <h4>Slider Controls</h4>
+                            <p>Auto-play, manual navigation, shuffle, reverse and more</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <div class="feature-details">
+                            <h4>Download Options</h4>
+                            <p>Download individual images or entire edited collections</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
